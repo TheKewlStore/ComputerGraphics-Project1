@@ -1,0 +1,1 @@
+C:/cygwin64/bin/g++.exe   -std=c++14 -pthread -fpermissive  -Wl,--enable-auto-import CMakeFiles/Project1.dir/main.cpp.o  -o ../bin/Project1.exe /usr/lib/w32api/libglu32.a /usr/lib/w32api/libopengl32.a /usr/lib/libglut.dll.a 
