@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /cygdrive/c/Users/iwasf/.CLion2017.3/system/cygwin_cmake/bin/cmake.exe
+CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/bin/cmake
 
 # The command to remove a file.
-RM = /cygdrive/c/Users/iwasf/.CLion2017.3/system/cygwin_cmake/bin/cmake.exe -E remove -f
+RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1
+CMAKE_SOURCE_DIR = /Users/ian/CLionProjects/ComputerGraphics-Project1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/ian/CLionProjects/ComputerGraphics-Project1/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Project1.dir/depend.make
@@ -57,52 +57,49 @@ include CMakeFiles/Project1.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Project1.dir/flags.make
 
-CMakeFiles/Project1.dir/main.cpp.o: CMakeFiles/Project1.dir/flags.make
-CMakeFiles/Project1.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Project1.dir/main.cpp.o"
-	C:/cygwin64/bin/g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project1.dir/main.cpp.o -c /cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1/main.cpp
+CMakeFiles/Project1.dir/src/main.cpp.o: CMakeFiles/Project1.dir/flags.make
+CMakeFiles/Project1.dir/src/main.cpp.o: ../src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ian/CLionProjects/ComputerGraphics-Project1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Project1.dir/src/main.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project1.dir/src/main.cpp.o -c /Users/ian/CLionProjects/ComputerGraphics-Project1/src/main.cpp
 
-CMakeFiles/Project1.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project1.dir/main.cpp.i"
-	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_PREPROCESSED_SOURCE
+CMakeFiles/Project1.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project1.dir/src/main.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ian/CLionProjects/ComputerGraphics-Project1/src/main.cpp > CMakeFiles/Project1.dir/src/main.cpp.i
 
-CMakeFiles/Project1.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project1.dir/main.cpp.s"
-	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_ASSEMBLY_SOURCE
+CMakeFiles/Project1.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project1.dir/src/main.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ian/CLionProjects/ComputerGraphics-Project1/src/main.cpp -o CMakeFiles/Project1.dir/src/main.cpp.s
 
-CMakeFiles/Project1.dir/main.cpp.o.requires:
+CMakeFiles/Project1.dir/src/main.cpp.o.requires:
 
-.PHONY : CMakeFiles/Project1.dir/main.cpp.o.requires
+.PHONY : CMakeFiles/Project1.dir/src/main.cpp.o.requires
 
-CMakeFiles/Project1.dir/main.cpp.o.provides: CMakeFiles/Project1.dir/main.cpp.o.requires
-	$(MAKE) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/main.cpp.o.provides.build
-.PHONY : CMakeFiles/Project1.dir/main.cpp.o.provides
+CMakeFiles/Project1.dir/src/main.cpp.o.provides: CMakeFiles/Project1.dir/src/main.cpp.o.requires
+	$(MAKE) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/src/main.cpp.o.provides.build
+.PHONY : CMakeFiles/Project1.dir/src/main.cpp.o.provides
 
-CMakeFiles/Project1.dir/main.cpp.o.provides.build: CMakeFiles/Project1.dir/main.cpp.o
+CMakeFiles/Project1.dir/src/main.cpp.o.provides.build: CMakeFiles/Project1.dir/src/main.cpp.o
 
 
 # Object files for target Project1
 Project1_OBJECTS = \
-"CMakeFiles/Project1.dir/main.cpp.o"
+"CMakeFiles/Project1.dir/src/main.cpp.o"
 
 # External object files for target Project1
 Project1_EXTERNAL_OBJECTS =
 
-../bin/Project1.exe: CMakeFiles/Project1.dir/main.cpp.o
-../bin/Project1.exe: CMakeFiles/Project1.dir/build.make
-../bin/Project1.exe: /usr/lib/w32api/libglu32.a
-../bin/Project1.exe: /usr/lib/w32api/libopengl32.a
-../bin/Project1.exe: /usr/lib/libglut.dll.a
-../bin/Project1.exe: CMakeFiles/Project1.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/Project1.exe"
+../bin/Project1: CMakeFiles/Project1.dir/src/main.cpp.o
+../bin/Project1: CMakeFiles/Project1.dir/build.make
+../bin/Project1: CMakeFiles/Project1.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/ian/CLionProjects/ComputerGraphics-Project1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/Project1"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Project1.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/Project1.dir/build: ../bin/Project1.exe
+CMakeFiles/Project1.dir/build: ../bin/Project1
 
 .PHONY : CMakeFiles/Project1.dir/build
 
-CMakeFiles/Project1.dir/requires: CMakeFiles/Project1.dir/main.cpp.o.requires
+CMakeFiles/Project1.dir/requires: CMakeFiles/Project1.dir/src/main.cpp.o.requires
 
 .PHONY : CMakeFiles/Project1.dir/requires
 
@@ -111,6 +108,6 @@ CMakeFiles/Project1.dir/clean:
 .PHONY : CMakeFiles/Project1.dir/clean
 
 CMakeFiles/Project1.dir/depend:
-	cd /cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1 /cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1 /cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1/cmake-build-debug /cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1/cmake-build-debug /cygdrive/c/Users/iwasf/CLionProjects/CEG4500/Project1/cmake-build-debug/CMakeFiles/Project1.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/ian/CLionProjects/ComputerGraphics-Project1/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ian/CLionProjects/ComputerGraphics-Project1 /Users/ian/CLionProjects/ComputerGraphics-Project1 /Users/ian/CLionProjects/ComputerGraphics-Project1/cmake-build-debug /Users/ian/CLionProjects/ComputerGraphics-Project1/cmake-build-debug /Users/ian/CLionProjects/ComputerGraphics-Project1/cmake-build-debug/CMakeFiles/Project1.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Project1.dir/depend
 
