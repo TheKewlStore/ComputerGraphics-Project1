@@ -2253,13 +2253,11 @@ void add_property(PlyFile* plyfile, char** words, int nwords) {
     if (equal_strings(words[1], "list")) {       /* is a list */
         prop->count_external = get_prop_type(words[2]);
         prop->external_type = get_prop_type(words[3]);
-        prop->internal_type = get_prop_type(words[3]);
 
         prop->name = strdup(words[4]);
         prop->is_list = 1;
     } else {                                        /* not a list */
         prop->external_type = get_prop_type(words[1]);
-        prop->internal_type = get_prop_type(words[1]);
         prop->name = strdup(words[2]);
         prop->is_list = 0;
     }

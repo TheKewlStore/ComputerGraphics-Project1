@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Project1" type="CMakeRunConfiguration" factoryName="Application" singleton="true" PROGRAM_PARAMS="$USER_HOME$/Downloads/blade.ply" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Project1" TARGET_NAME="Project1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Project1" RUN_TARGET_NAME="Project1">
+    <envs />
+    <method />
+  </configuration>
+</component>

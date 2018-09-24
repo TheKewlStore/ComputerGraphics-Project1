@@ -20,25 +20,25 @@ GL/gl.h
 GL/glu.h
 -
 
-/Users/ian/CLionProjects/ComputerGraphics-Project1/src/cmd_options.h
-string
--
-vector
--
-
 /Users/ian/CLionProjects/ComputerGraphics-Project1/src/main.cpp
+windows.h
+-
+GL/GL.h
+-
+GL/GLU.h
+-
+GL/glut.h
+-
 OpenGL/gl.h
 -
 glut.h
 -
-GL/gl.h
+cmath
 -
-Gl/glut.h
--
+ply.h
+/Users/ian/CLionProjects/ComputerGraphics-Project1/src/ply.h
 plyfile.cpp
 /Users/ian/CLionProjects/ComputerGraphics-Project1/src/plyfile.cpp
-cmd_options.h
-/Users/ian/CLionProjects/ComputerGraphics-Project1/src/cmd_options.h
 iostream
 -
 
