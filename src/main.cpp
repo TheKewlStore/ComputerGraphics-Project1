@@ -38,11 +38,17 @@ float max_y;
 float min_z;
 float max_z;
 
+// The scale factors are calculated using the min and max x, y and z values
+// to scale the model to fit in the viewport.
 GLdouble x_scale_factor;
 GLdouble y_scale_factor;
 GLdouble z_scale_factor;
 
 
+/**
+ * Render the loaded ply file onto the current viewport,
+ * scaling and translating it to be centered at the origin and fit in our viewport.
+ */
 void renderPLY() {
     glColor3d(0.65, 0.65, 0.65);
 
@@ -82,112 +88,151 @@ void renderPLY() {
 }
 
 
+/**
+ * Draw x, y, and z axes centered around a vertex to the current viewport.
+ * @param center_vertex The vertex to center the axes around.
+ */
 void drawAxes(Vertex center_vertex) {
+    // Z axis is blue.
     glColor3d(0.0, 0.0, 1.0);
 
     glBegin(GL_LINES);
 
     glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z - 100.0);
+    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z - 100);
 
     glEnd();
 
     glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z + 100.0);
+    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z + 100);
 
     glEnd();
 
+    // Y axis is green.
     glColor3d(0.0, 1.0, 0.0);
 
     glBegin(GL_LINES);
 
     glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x, center_vertex.y + 100.0, center_vertex.z);
+    glVertex3f(center_vertex.x, center_vertex.y + 100, center_vertex.z);
 
     glEnd();
 
     glBegin(GL_LINES);
 
     glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x, center_vertex.y - 100.0, center_vertex.z);
+    glVertex3f(center_vertex.x, center_vertex.y - 100, center_vertex.z);
 
     glEnd();
 
+    // X axis is red.
     glColor3d(1.0, 0.0, 0.0);
 
     glBegin(GL_LINES);
 
     glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x + 100.0, center_vertex.y, center_vertex.z);
+    glVertex3f(center_vertex.x + 100, center_vertex.y, center_vertex.z);
 
     glEnd();
 
     glBegin(GL_LINES);
 
     glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x - 100.0, center_vertex.y, center_vertex.z);
+    glVertex3f(center_vertex.x - 100, center_vertex.y, center_vertex.z);
 
     glEnd();
 }
 
 
+/**
+ * OpenGL draw function, draw a top, side and front viewport of the ply file to the screen with axes.
+ */
 void draw() {
     glClearColor(1.0, 1.0, 1.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // The center_vertex is also 0, 0, 0 now in favor of just translating the model to the origin.
     Vertex center_vertex = Vertex();
 
     center_vertex.x = 0.0;
     center_vertex.y = 0.0;
     center_vertex.z = 0.0;
 
+    // The top-right viewport, top view of model.
     glViewport(0, height / 2, width / 2, height / 2);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glRotatef(90, 0, 1, 0);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(120.0, width / height, 0.1, 50.0);
-    gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-    drawAxes(center_vertex);
-    renderPLY();
-
-    glViewport(width / 2, height / 2, width / 2, height / 2);
+    // Rotate the model 90 degrees around the x-axis to view the top.
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glRotatef(90, 1, 0, 0);
+
+    // Setup the perspective and look down the z-axis.
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(120.0, width / height, 0.1, 50.0);
     gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
+    // Render the axes and ply file.
     drawAxes(center_vertex);
     renderPLY();
 
-    glViewport(0, 0, width / 2, height / 2);
+    // Top-right viewport, side view of model.
+    glViewport(width / 2, height / 2, width / 2, height / 2);
+
+    // Rotate the model 90 degrees around the y-axis to view the side.
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glRotatef(90, 0, 1, 0);
+
+    // Setup the perspective and look down the z-axis.
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(120.0, width / height, 0.1, 50.0);
     gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
+    // Render the axes and ply file.
     drawAxes(center_vertex);
     renderPLY();
 
+    // Bottom-left viewport, front view.
+    glViewport(0, 0, width / 2, height / 2);
+
+    // No rotation this time, front view.
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    // Setup the perspective and look down the z-axis.
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(120.0, width / height, 0.1, 50.0);
+    gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+    // Render the axes and ply file.
+    drawAxes(center_vertex);
+    renderPLY();
+
+    // Done rendering, swap the buffers.
     glutSwapBuffers();
-    glutPostRedisplay();
 }
 
 
+/**
+ * OpenGL resize function, update our width and height and redraw ply file.
+ * @param new_width The new window width.
+ * @param new_height The new window height.
+ */
 void resize(int new_width, int new_height) {
+    // Update our width and height values, and redraw models.
     width = new_width;
     height = new_height;
     glutPostRedisplay();
 }
 
 
+/**
+ * Code taken from the sample Visual Studio Solution posted on the class web page.
+ * @param filename The name of the ply file to read in.
+ */
 void read_ply_file(char* filename) {
     int i, j, k;
     PlyFile *ply;
@@ -295,6 +340,12 @@ void read_ply_file(char* filename) {
 }
 
 
+/**
+ * Application entry point, parse command-line, load the ply file, setup the glut window, and enter event loop.
+ * @param argc The number of command-line arguments.
+ * @param argv The command-line arguments.
+ * @return Return code.
+ */
 int main(int argc, char** argv) {
     char* filename;
 
@@ -323,5 +374,10 @@ int main(int argc, char** argv) {
     glutCreateWindow("3D PLY Model Viewer");
     glutDisplayFunc(draw);
     glutReshapeFunc(resize);
+
+    glEnable(GL_DEPTH_TEST);
+
     glutMainLoop();
+
+    return 0;
 }
