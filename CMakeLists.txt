@@ -13,6 +13,6 @@ include_directories(${OPENGL_INCLUDE_DIR})
 find_package(GLUT REQUIRED)
 include_directories(${GLUT_INCLUDE_DIR})
 
-add_executable(Project1 src/main.cpp)
+add_executable(Project1 src/main.cpp src/plyfile.cpp)
 
 target_link_libraries(Project1 ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})

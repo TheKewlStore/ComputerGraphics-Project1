@@ -33,12 +33,16 @@ OpenGL/gl.h
 -
 glut.h
 -
+GL/GL.h
+-
+GL/GLU.h
+-
+GL/glut.h
+-
 cmath
 -
 ply.h
 /Users/ian/CLionProjects/ComputerGraphics-Project1/src/ply.h
-plyfile.cpp
-/Users/ian/CLionProjects/ComputerGraphics-Project1/src/plyfile.cpp
 iostream
 -
 

@@ -87,6 +87,9 @@
 		<Unit filename="/Users/ian/CLionProjects/ComputerGraphics-Project1/src/main.cpp">
 			<Option target="Project1"/>
 		</Unit>
+		<Unit filename="/Users/ian/CLionProjects/ComputerGraphics-Project1/src/plyfile.cpp">
+			<Option target="Project1"/>
+		</Unit>
 		<Unit filename="/Users/ian/CLionProjects/ComputerGraphics-Project1/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

@@ -1,19 +1,20 @@
-#ifdef WIN32
+#if defined(WIN32)
 #include <windows.h>
+#include <GL/GL.h>
+#include <GL/GLU.h>
+#include <GL/glut.h>
+#elif defined(__APPLE__)
+#include <OpenGL/gl.h>
+#include <glut.h>
+#else
 #include <GL/GL.h>
 #include <GL/GLU.h>
 #include <GL/glut.h>
 #endif
 
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <glut.h>
-#endif
-
 #include <cmath>
 
 #include "ply.h"
-#include "plyfile.cpp"
 
 using namespace std;
 #include <iostream>
@@ -44,6 +45,66 @@ GLdouble x_scale_factor;
 GLdouble y_scale_factor;
 GLdouble z_scale_factor;
 
+double slider1_offset = 0.0;
+double slider2_offset = 0.0;
+double slider3_offset = 0.0;
+
+GLdouble x_rotation_angle = 0.0;
+GLdouble y_rotation_angle = 0.0;
+GLdouble z_rotation_angle = 0.0;
+
+
+/**
+ * Draw the rotation sliders into the bottom left viewport.
+ */
+void drawSlider(double slider_offset_x) {
+    glColor3d(0.0, 0.0, 0.0);
+
+    glBegin(GL_LINES);
+
+    glVertex3d(-2.5, 0.5, 0);
+    glVertex3d(2.5, 0.5, 0);
+
+    glEnd();
+
+    glBegin(GL_LINES);
+
+    glVertex3d(2.5, 0.5, 0);
+    glVertex3d(2.5, 0, 0);
+
+    glEnd();
+
+    glBegin(GL_LINES);
+
+    glVertex3d(2.5, 0, 0);
+    glVertex3d(-2.5, 0, 0);
+
+    glEnd();
+
+    glBegin(GL_LINES);
+
+    glVertex3d(-2.5, 0, 0);
+    glVertex3d(-2.5, 0.5, 0);
+
+    glEnd();
+
+    glColor3d(1.0, 0.0, 0.0);
+
+    glPushMatrix();
+    glTranslated(slider_offset_x, 0, 0);
+
+    glBegin(GL_QUADS);
+
+    glVertex3d(-2.5, 0.5, 0);
+    glVertex3d(-2, 0.5, 0);
+    glVertex3d(-2, 0, 0);
+    glVertex3d(-2.5, 0, 0);
+
+    glEnd();
+
+    glPopMatrix();
+}
+
 
 /**
  * Render the loaded ply file onto the current viewport,
@@ -55,6 +116,9 @@ void renderPLY() {
     glMatrixMode(GL_MODELVIEW);
     glScaled(x_scale_factor, y_scale_factor, z_scale_factor);
     glTranslated(-(max_x + min_x) / 2.0, -(max_y + min_y) / 2.0, -(max_z + min_z) / 2.0);
+    glRotated(x_rotation_angle, 1, 0, 0);
+    glRotated(y_rotation_angle, 0, 1, 0);
+    glRotated(z_rotation_angle, 0, 0, 1);
 
     for (int i = 0; i < num_faces; i++) {
         Face* face = flist[i];
@@ -90,21 +154,20 @@ void renderPLY() {
 
 /**
  * Draw x, y, and z axes centered around a vertex to the current viewport.
- * @param center_vertex The vertex to center the axes around.
  */
-void drawAxes(Vertex center_vertex) {
+void drawAxes() {
     // Z axis is blue.
     glColor3d(0.0, 0.0, 1.0);
 
     glBegin(GL_LINES);
 
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z - 100);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0, 0, 0 - 100);
 
     glEnd();
 
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z + 100);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0, 0, 0 + 100);
 
     glEnd();
 
@@ -113,15 +176,15 @@ void drawAxes(Vertex center_vertex) {
 
     glBegin(GL_LINES);
 
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x, center_vertex.y + 100, center_vertex.z);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0, 0 + 100, 0);
 
     glEnd();
 
     glBegin(GL_LINES);
 
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x, center_vertex.y - 100, center_vertex.z);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0, 0 - 100, 0);
 
     glEnd();
 
@@ -130,17 +193,65 @@ void drawAxes(Vertex center_vertex) {
 
     glBegin(GL_LINES);
 
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x + 100, center_vertex.y, center_vertex.z);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0 + 100, 0, 0);
 
     glEnd();
 
     glBegin(GL_LINES);
 
-    glVertex3f(center_vertex.x, center_vertex.y, center_vertex.z);
-    glVertex3f(center_vertex.x - 100, center_vertex.y, center_vertex.z);
+    glVertex3f(0, 0, 0);
+    glVertex3f(0 - 100, 0, 0);
 
     glEnd();
+}
+
+
+void drawViewport(int x, int y, int width, int height) {
+    // The top-right viewport, top view of model.
+    glViewport(x, y, width, height);
+
+    // Setup the perspective and look down the z-axis.
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(120.0, width / height, 0.1, 50.0);
+    gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+    // Render the axes and ply file.
+    drawAxes();
+    renderPLY();
+}
+
+
+void drawSliderViewport() {
+    glViewport((width / 2) + 15, 0, (width / 2) - 30, height / 2);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(-2.5, 2.5, -2.5, 2.5);
+
+    glMatrixMode(GL_MODELVIEW);
+
+    glPushMatrix();
+
+    glTranslated(0.0, 2.0, 0.0);
+    drawSlider(slider1_offset);
+
+    glPopMatrix();
+    glPushMatrix();
+
+    drawSlider(slider2_offset);
+
+    glPopMatrix();
+    glPushMatrix();
+
+    glTranslated(0.0, -2.0, 0.0);
+    drawSlider(slider3_offset);
+
+    glPopMatrix();
 }
 
 
@@ -151,48 +262,21 @@ void draw() {
     glClearColor(1.0, 1.0, 1.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // The center_vertex is also 0, 0, 0 now in favor of just translating the model to the origin.
-    Vertex center_vertex = Vertex();
-
-    center_vertex.x = 0.0;
-    center_vertex.y = 0.0;
-    center_vertex.z = 0.0;
-
-    // The top-right viewport, top view of model.
-    glViewport(0, height / 2, width / 2, height / 2);
-
     // Rotate the model 90 degrees around the x-axis to view the top.
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glRotatef(90, 1, 0, 0);
 
-    // Setup the perspective and look down the z-axis.
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(120.0, width / height, 0.1, 50.0);
-    gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
-    // Render the axes and ply file.
-    drawAxes(center_vertex);
-    renderPLY();
-
-    // Top-right viewport, side view of model.
-    glViewport(width / 2, height / 2, width / 2, height / 2);
+    // Top-left viewport, top view.
+    drawViewport(0, height / 2, width / 2, height / 2);
 
     // Rotate the model 90 degrees around the y-axis to view the side.
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glRotatef(90, 0, 1, 0);
 
-    // Setup the perspective and look down the z-axis.
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(120.0, width / height, 0.1, 50.0);
-    gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
-    // Render the axes and ply file.
-    drawAxes(center_vertex);
-    renderPLY();
+    // Top-right viewport, side view.
+    drawViewport(width / 2, height / 2, width / 2, height / 2);
 
     // Bottom-left viewport, front view.
     glViewport(0, 0, width / 2, height / 2);
@@ -201,15 +285,9 @@ void draw() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // Setup the perspective and look down the z-axis.
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(120.0, width / height, 0.1, 50.0);
-    gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    drawViewport(0, 0, width / 2, height / 2);
 
-    // Render the axes and ply file.
-    drawAxes(center_vertex);
-    renderPLY();
+    drawSliderViewport();
 
     // Done rendering, swap the buffers.
     glutSwapBuffers();
@@ -340,6 +418,46 @@ void read_ply_file(char* filename) {
 }
 
 
+void mouse_input(int button, int state, int x, int y) {
+    if (button != GLUT_LEFT_BUTTON) {
+        return;
+    } else if (!(x >= (width / 2) && y >= (height / 2))) {
+        // We're not in the bottom-right viewport.
+        return;
+    }
+
+    int viewport_left = width / 2;
+
+    double viewport_x = x - viewport_left;
+    double viewport_y = height - y;
+
+    double world_x = viewport_x * 5.0 / (width / 2);
+    double world_y = viewport_y * 2.5 / (height / 2);
+
+    if (world_x >= 4.75) {
+        world_x = 4.75;
+    } else if (world_x <= .25) {
+        world_x = .25;
+    }
+
+    if (world_y >= 2.0 && world_y <= 2.5) {
+        // The X slider is selected
+        slider1_offset = world_x - .25;
+        x_rotation_angle = (slider1_offset * 360) / 5;
+    } else if (world_y >= 1.0 && world_y <= 1.5) {
+        // The Y slider is selected
+        slider2_offset = world_x - .25;
+        y_rotation_angle = (slider2_offset * 360) / 5;
+    } else if (world_y >= 0 && world_y <= 0.5) {
+        // The Z slider is selected
+        slider3_offset = world_x - .25;
+        z_rotation_angle = (slider3_offset * 360) / 5;
+    }
+
+    glutPostRedisplay();
+}
+
+
 /**
  * Application entry point, parse command-line, load the ply file, setup the glut window, and enter event loop.
  * @param argc The number of command-line arguments.
@@ -374,6 +492,7 @@ int main(int argc, char** argv) {
     glutCreateWindow("3D PLY Model Viewer");
     glutDisplayFunc(draw);
     glutReshapeFunc(resize);
+    glutMouseFunc(mouse_input);
 
     glEnable(GL_DEPTH_TEST);
 
