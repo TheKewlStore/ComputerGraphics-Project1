@@ -13,7 +13,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ee64104b-4e09-4b02-bf32-8b4a15a409f2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,13 +28,14 @@
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="150" column="0" lean-forward="false" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+            <state relative-caret-position="321">
+              <caret line="257" column="0" lean-forward="true" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
               <folding>
                 <element signature="e#19#99#0" expanded="true" />
                 <element signature="e#125#147#0" expanded="true" />
                 <element signature="e#172#231#0" expanded="true" />
                 <element signature="e#240#256#0" expanded="true" />
+                <element signature="e#1691#2960#0" expanded="true" />
                 <element signature="e#9587#10738#0" expanded="true" />
                 <element signature="e#10741#11821#0" expanded="true" />
               </folding>
@@ -223,7 +223,7 @@
       <workItem from="1538412820295" duration="2086000" />
       <workItem from="1538608019571" duration="7907000" />
       <workItem from="1538773077794" duration="245000" />
-      <workItem from="1538773333679" duration="2936000" />
+      <workItem from="1538773333679" duration="3055000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit v2">
       <created>1536618755751</created>
@@ -274,11 +274,18 @@
       <option name="project" value="LOCAL" />
       <updated>1538796490542</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Testing commit from CLion">
+      <created>1538796941909</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1538796941909</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81630000" />
+    <option name="totallyTimeSpent" value="81749000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -291,13 +298,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="808" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18675123" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32463768" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289855" sideWeight="0.50248754" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3289855" sideWeight="0.49751243" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3289855" sideWeight="0.50528544" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3289855" sideWeight="0.4947146" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21014492" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289855" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -325,7 +333,8 @@
     <MESSAGE value="Committing crap" />
     <MESSAGE value="Documentation" />
     <MESSAGE value="Initial working version implementation for project 2 -- adding in rotation sliders that rotate the object around the x, y and z axis respectively." />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial working version implementation for project 2 -- adding in rotation sliders that rotate the object around the x, y and z axis respectively." />
+    <MESSAGE value="Testing commit from CLion" />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing commit from CLion" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -471,6 +480,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -493,6 +503,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -515,6 +526,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -557,6 +569,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -599,6 +612,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -641,6 +655,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -690,6 +705,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -712,6 +728,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -734,6 +751,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -756,6 +774,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -778,6 +797,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -800,6 +820,7 @@
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
@@ -908,13 +929,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="150" column="0" lean-forward="false" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+        <state relative-caret-position="321">
+          <caret line="257" column="0" lean-forward="true" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
           <folding>
             <element signature="e#19#99#0" expanded="true" />
             <element signature="e#125#147#0" expanded="true" />
             <element signature="e#172#231#0" expanded="true" />
             <element signature="e#240#256#0" expanded="true" />
+            <element signature="e#1691#2960#0" expanded="true" />
             <element signature="e#9587#10738#0" expanded="true" />
             <element signature="e#10741#11821#0" expanded="true" />
           </folding>
