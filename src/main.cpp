@@ -148,6 +148,7 @@ void renderPLY() {
         }
 
         glEnd();
+
     }
 }
 
