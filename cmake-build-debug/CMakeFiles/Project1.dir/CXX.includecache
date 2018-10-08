@@ -6,21 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/GLUT.framework/Headers/glut.h
+C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/include/GL/glut.h
 windows.h
--
-OpenGL/OpenGLAvailability.h
--
-OpenGL/gl.h
--
-OpenGL/glu.h
 -
 GL/gl.h
 -
 GL/glu.h
 -
 
-/Users/ian/CLionProjects/ComputerGraphics-Project1/src/main.cpp
+C:/Users/iwasf/Documents/ComputerGraphics/Projects/ComputerGraphics-Project1/src/main.cpp
 windows.h
 -
 GL/GL.h
@@ -39,20 +33,16 @@ GL/GLU.h
 -
 GL/glut.h
 -
-cmath
--
 ply.h
-/Users/ian/CLionProjects/ComputerGraphics-Project1/src/ply.h
-iostream
--
+C:/Users/iwasf/Documents/ComputerGraphics/Projects/ComputerGraphics-Project1/src/ply.h
 
-/Users/ian/CLionProjects/ComputerGraphics-Project1/src/ply.h
+C:/Users/iwasf/Documents/ComputerGraphics/Projects/ComputerGraphics-Project1/src/ply.h
 stdio.h
 -
 stddef.h
 -
 
-/Users/ian/CLionProjects/ComputerGraphics-Project1/src/plyfile.cpp
+C:/Users/iwasf/Documents/ComputerGraphics/Projects/ComputerGraphics-Project1/src/plyfile.cpp
 stdio.h
 -
 stdlib.h
@@ -62,5 +52,5 @@ math.h
 string.h
 -
 ply.h
-/Users/ian/CLionProjects/ComputerGraphics-Project1/src/ply.h
+C:/Users/iwasf/Documents/ComputerGraphics/Projects/ComputerGraphics-Project1/src/ply.h
 

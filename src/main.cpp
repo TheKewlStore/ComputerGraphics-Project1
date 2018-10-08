@@ -1,4 +1,4 @@
-#if defined(WIN32)
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
 #include <GL/GL.h>
 #include <GL/GLU.h>
@@ -12,12 +12,9 @@
 #include <GL/glut.h>
 #endif
 
-#include <cmath>
-
 #include "ply.h"
 
 using namespace std;
-#include <iostream>
 
 
 int width = 1024;
@@ -313,19 +310,14 @@ void resize(int new_width, int new_height) {
  * @param filename The name of the ply file to read in.
  */
 void read_ply_file(char* filename) {
-    int i, j, k;
+    int i, j;
     PlyFile *ply;
     int nelems;
     char **elist;
     int file_type;
     float version;
     int nprops;
-    PlyProperty **plist;
     char *elem_name;
-    int num_comments;
-    char **comments;
-    int num_obj_info;
-    char **obj_info;
     int num_elems;
 
     /* open a PLY file for reading */
@@ -342,7 +334,8 @@ void read_ply_file(char* filename) {
 
         /* get the description of the first element */
         elem_name = elist[i];
-        plist = ply_get_element_description(ply, elem_name, &num_elems, &nprops);
+        // plist = ply_get_element_description(ply, elem_name, &num_elems, &nprops);
+        ply_get_element_description(ply, elem_name, &num_elems, &nprops);
 
         /* if we're on vertex elements, read them in */
         if (equal_strings("vertex", elem_name)) {
@@ -470,7 +463,7 @@ int main(int argc, char** argv) {
 
     if (argc < 2) {
         printf("You must provide the path to the ply file to render!");
-        exit(100);
+        return 100;
     }
     else {
         filename = argv[1];
