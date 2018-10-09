@@ -13,6 +13,8 @@
 #endif
 
 #include "ply.h"
+#include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
