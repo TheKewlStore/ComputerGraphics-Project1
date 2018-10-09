@@ -4,15 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/ian/CLionProjects/ComputerGraphics-Project1/src/main.cpp" "/Users/ian/CLionProjects/ComputerGraphics-Project1/cmake-build-debug/CMakeFiles/Project1.dir/src/main.cpp.o"
-  "/Users/ian/CLionProjects/ComputerGraphics-Project1/src/plyfile.cpp" "/Users/ian/CLionProjects/ComputerGraphics-Project1/cmake-build-debug/CMakeFiles/Project1.dir/src/plyfile.cpp.o"
+  "C:/Users/iwasf/Documents/ComputerGraphics/Projects/ComputerGraphics-Project1/src/main.cpp" "C:/Users/iwasf/Documents/ComputerGraphics/Projects/ComputerGraphics-Project1/cmake-build-debug/CMakeFiles/Project1.dir/src/main.cpp.obj"
+  "C:/Users/iwasf/Documents/ComputerGraphics/Projects/ComputerGraphics-Project1/src/plyfile.cpp" "C:/Users/iwasf/Documents/ComputerGraphics/Projects/ComputerGraphics-Project1/cmake-build-debug/CMakeFiles/Project1.dir/src/plyfile.cpp.obj"
   )
-set(CMAKE_CXX_COMPILER_ID "AppleClang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/OpenGL.framework"
-  "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/GLUT.framework/Headers"
+  "C:/Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/include"
   )
 
 # Targets to which this target links.
