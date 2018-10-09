@@ -22,10 +22,8 @@ using namespace std;
 int width = 1024;
 int height = 768;
 
-FILE* fp;
-
 int num_faces;
-int num_vertices;
+
 Vertex **vlist;
 Face **flist;
 
@@ -61,7 +59,7 @@ int dragging_z = 0;
 /**
  * Draw the rotation sliders into the bottom left viewport.
  */
-void drawSlider(double slider_offset_x) {
+void draw_slider(double slider_offset_x) {
     glColor3d(0.0, 0.0, 0.0);
 
     glBegin(GL_LINES);
@@ -114,7 +112,7 @@ void drawSlider(double slider_offset_x) {
  * Render the loaded ply file onto the current viewport,
  * scaling and translating it to be centered at the origin and fit in our viewport.
  */
-void renderPLY() {
+void render_ply() {
     glColor3d(0.65, 0.65, 0.65);
 
     glMatrixMode(GL_MODELVIEW);
@@ -160,7 +158,7 @@ void renderPLY() {
 /**
  * Draw x, y, and z axes centered around a vertex to the current viewport.
  */
-void drawAxes() {
+void draw_axes() {
     // Z axis is blue.
     glColor3d(0.0, 0.0, 1.0);
 
@@ -212,7 +210,15 @@ void drawAxes() {
 }
 
 
-void drawViewport(int x, int y, int width, int height) {
+/**
+ * Given the dimensions for a viewport, setup the necessary perspective projections,
+ * camera and render the axes and ply file.
+ * @param x The x origin for the viewport.
+ * @param y The y origin for the viewport.
+ * @param width The width of the viewport.
+ * @param height The height of the viewport.
+ */
+void draw_viewport(int x, int y, int width, int height) {
     // The top-right viewport, top view of model.
     glViewport(x, y, width, height);
 
@@ -223,12 +229,15 @@ void drawViewport(int x, int y, int width, int height) {
     gluLookAt(0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
     // Render the axes and ply file.
-    drawAxes();
-    renderPLY();
+    draw_axes();
+    render_ply();
 }
 
 
-void drawSliderViewport() {
+/**
+ * Define the slider viewport in the bottom right corner and draw all the sliders in their current positions.
+ */
+void draw_slider_viewport() {
     glViewport((width / 2) + 15, 0, (width / 2) - 30, height / 2);
 
     glMatrixMode(GL_MODELVIEW);
@@ -243,18 +252,18 @@ void drawSliderViewport() {
     glPushMatrix();
 
     glTranslated(0.0, 2.0, 0.0);
-    drawSlider(slider1_offset);
+    draw_slider(slider1_offset);
 
     glPopMatrix();
     glPushMatrix();
 
-    drawSlider(slider2_offset);
+    draw_slider(slider2_offset);
 
     glPopMatrix();
     glPushMatrix();
 
     glTranslated(0.0, -2.0, 0.0);
-    drawSlider(slider3_offset);
+    draw_slider(slider3_offset);
 
     glPopMatrix();
 }
@@ -273,7 +282,7 @@ void draw() {
     glRotatef(90, 1, 0, 0);
 
     // Top-left viewport, top view.
-    drawViewport(0, height / 2, width / 2, height / 2);
+    draw_viewport(0, height / 2, width / 2, height / 2);
 
     // Rotate the model 90 degrees around the y-axis to view the side.
     glMatrixMode(GL_MODELVIEW);
@@ -281,7 +290,7 @@ void draw() {
     glRotatef(90, 0, 1, 0);
 
     // Top-right viewport, side view.
-    drawViewport(width / 2, height / 2, width / 2, height / 2);
+    draw_viewport(width / 2, height / 2, width / 2, height / 2);
 
     // Bottom-left viewport, front view.
     glViewport(0, 0, width / 2, height / 2);
@@ -290,9 +299,9 @@ void draw() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    drawViewport(0, 0, width / 2, height / 2);
+    draw_viewport(0, 0, width / 2, height / 2);
 
-    drawSliderViewport();
+    draw_slider_viewport();
 
     // Done rendering, swap the buffers.
     glutSwapBuffers();
@@ -315,6 +324,10 @@ void resize(int new_width, int new_height) {
 /**
  * Code taken from the sample Visual Studio Solution posted on the class web page.
  * @param filename The name of the ply file to read in.
+ * @post num_faces will be set to the number of faces defined in the ply file.
+ *       vlist will be set to a list of Vertex pointers based on the vertices defined in the ply file.
+ *       flist will be set to the list of Face pointers based on the faces defined in the ply file.
+ *       min and max x, y and z values will be set based on the points in the vertices defined in the ply file.
  */
 void read_ply_file(char* filename) {
     int i, j;
@@ -345,9 +358,7 @@ void read_ply_file(char* filename) {
         ply_get_element_description(ply, elem_name, &num_elems, &nprops);
 
         /* if we're on vertex elements, read them in */
-        if (equal_strings("vertex", elem_name)) {
-            num_vertices = num_elems;
-
+        if (equal_strings(const_cast<char*>("vertex"), elem_name)) {
             /* create a vertex list to hold all the vertices */
             vlist = (Vertex **)malloc(sizeof(Vertex *) * num_elems);
 
@@ -396,7 +407,7 @@ void read_ply_file(char* filename) {
             }
         }
 
-        if (equal_strings("face", elem_name)) {
+        if (equal_strings(const_cast<char*>("face"), elem_name)) {
             num_faces = num_elems;
 
             flist = (Face **)malloc(sizeof(Face *) * num_elems);
@@ -413,9 +424,9 @@ void read_ply_file(char* filename) {
 
     ply_close(ply);
 
-    printf("X value ranges: %f - %f\n", min_x, max_x);
-    printf("Y value ranges: %f - %f\n", min_y, max_y);
-    printf("Z value ranges: %f - %f\n", min_z, max_z);
+//    printf("X value ranges: %f - %f\n", min_x, max_x);
+//    printf("Y value ranges: %f - %f\n", min_y, max_y);
+//    printf("Z value ranges: %f - %f\n", min_z, max_z);
 }
 
 
@@ -425,6 +436,8 @@ void read_ply_file(char* filename) {
  * @param y The screen y coordinate.
  * @param world_x Pointer where the relative world x coordinate will be stored.
  * @param world_y Pointer where the relative world y coordinate will be stored.
+ * @post world_x will contain the world relative x coordinate based on the screen x coordinate.
+ *       world_y will contain the world relative y coordinate based on the screen y coordinate.
  */
 void calculate_world_coordinates(int x, int y, double* world_x, double* world_y) {
     int viewport_left = width / 2;
@@ -448,6 +461,22 @@ void calculate_world_coordinates(int x, int y, double* world_x, double* world_y)
         // .25 is the effective minimum x value after considering the padding of the sliders.
         *world_x = .25;
     }
+}
+
+
+/**
+ * Helper function to calculate the slider offset and rotation value given the world x coordinate of the slider.
+ * @param world_x The x coordinate of the slider/mouse pointer.
+ * @param slider_offset Pointer where the slider offset value should be stored.
+ * @param rotation_angle Pointer where the slider rotation angle should be stored.
+ * @post slider_offset will contain the slider offset relative to the world x coordinate.
+ *       rotation_angle will contain the rotation angle relative to the world x coordinate.
+ */
+void calculate_slider_offsets(double world_x, double* slider_offset, GLdouble* rotation_angle) {
+    // All we need to do for th slider offset based on the world x coordinate is remove the padding.
+    *slider_offset = world_x - .25;
+    // The rotation angle is defined as 360 = 4.5 x, so divide evenly based on that.
+    *rotation_angle = (*slider_offset * 360) / 4.5;
 }
 
 
@@ -503,18 +532,15 @@ void mouse_input(int button, int state, int x, int y) {
 
     if (world_y >= 2.0 && world_y <= 2.5) {
         // The X slider is selected
-        slider1_offset = world_x - .25;
-        x_rotation_angle = (slider1_offset * 360) / 4.5;
+        calculate_slider_offsets(world_x, &slider1_offset, &x_rotation_angle);
         dragging_x = 1;
     } else if (world_y >= 1.0 && world_y <= 1.5) {
         // The Y slider is selected
-        slider2_offset = world_x - .25;
-        y_rotation_angle = (slider2_offset * 360) / 4.5;
+        calculate_slider_offsets(world_x, &slider2_offset, &y_rotation_angle);
         dragging_y = 1;
     } else if (world_y >= 0 && world_y <= 0.5) {
         // The Z slider is selected
-        slider3_offset = world_x - .25;
-        z_rotation_angle = (slider3_offset * 360) / 4.5;
+        calculate_slider_offsets(world_x, &slider3_offset, &z_rotation_angle);
         dragging_z = 1;
     }
 
@@ -533,15 +559,11 @@ void mouse_motion(int x, int y) {
     calculate_world_coordinates(x, y, &world_x, &world_y);
 
     if (dragging_x) {
-        slider1_offset = world_x - .25;
-        x_rotation_angle = (slider1_offset * 360) / 4.5;
-        printf("%f\n", slider1_offset);
+        calculate_slider_offsets(world_x, &slider1_offset, &x_rotation_angle);
     } else if (dragging_y) {
-        slider2_offset = world_x - .25;
-        y_rotation_angle = (slider2_offset * 360) / 4.5;
+        calculate_slider_offsets(world_x, &slider2_offset, &y_rotation_angle);
     } else if (dragging_z) {
-        slider3_offset = world_x - .25;
-        z_rotation_angle = (slider3_offset * 360) / 4.5;
+        calculate_slider_offsets(world_x, &slider3_offset, &z_rotation_angle);
     }
 
     glutPostRedisplay();

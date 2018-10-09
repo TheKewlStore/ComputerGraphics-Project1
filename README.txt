@@ -17,9 +17,9 @@ Setting up the three viewports,
 renders the ply for each viewport,
 and renders x y and z axis lines for each viewport.
 
-The renderPLY function is in charge of actually rendering all the vertices based on the PLY faces.
+The render_ply function is in charge of actually rendering all the vertices based on the PLY faces.
 
-The drawAxes function simply draws lines following the x, y and z axes to make visualizing the models easier.
+The draw_axes function simply draws lines following the x, y and z axes to make visualizing the models easier.
 
 The resize function just handles window resizes
 and simply updates the width and height variables and redraws the scene.
