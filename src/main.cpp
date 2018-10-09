@@ -25,7 +25,6 @@ int height = 768;
 FILE* fp;
 
 int num_faces;
-int num_vertices;
 Vertex **vlist;
 Face **flist;
 
@@ -345,9 +344,7 @@ void read_ply_file(char* filename) {
         ply_get_element_description(ply, elem_name, &num_elems, &nprops);
 
         /* if we're on vertex elements, read them in */
-        if (equal_strings("vertex", elem_name)) {
-            num_vertices = num_elems;
-
+        if (equal_strings(const_cast<char*>("vertex"), elem_name)) {
             /* create a vertex list to hold all the vertices */
             vlist = (Vertex **)malloc(sizeof(Vertex *) * num_elems);
 
@@ -396,7 +393,7 @@ void read_ply_file(char* filename) {
             }
         }
 
-        if (equal_strings("face", elem_name)) {
+        if (equal_strings(const_cast<char*>("face"), elem_name)) {
             num_faces = num_elems;
 
             flist = (Face **)malloc(sizeof(Face *) * num_elems);
@@ -419,15 +416,26 @@ void read_ply_file(char* filename) {
 }
 
 
-void calculateSliderOffset(int x, int y, double* world_x, double* world_y) {
+/**
+ * Convert the screen coordinates into world coordinates based on the slider viewport.
+ * @param x The screen x coordinate.
+ * @param y The screen y coordinate.
+ * @param world_x The converted world x coordinate will be stored here.
+ * @param world_y Teh converted world y coordinate will be stored here.
+ */
+void calculate_world_coordinates(int x, int y, double* world_x, double* world_y) {
     int viewport_left = width / 2;
 
+    // The x coordinate relative to the viewport left.
     double viewport_x = x - viewport_left;
+    // The y coordinate relative to the viewport top, which will be flipped based on coordinate systems.
     double viewport_y = height - y;
 
+    // The world viewport ranges from units 0-5, so multiply by 5 then divide by the viewport width or height.
     *world_x = viewport_x * 5.0 / (width / 2);
     *world_y = viewport_y * 2.5 / (height / 2);
 
+    // Max and min the x value from .25 to 4.75 to account for padding of the sliders.
     if (*world_x >= 4.75) {
         *world_x = 4.75;
     } else if (*world_x <= .25) {
@@ -436,8 +444,29 @@ void calculateSliderOffset(int x, int y, double* world_x, double* world_y) {
 }
 
 
+/**
+ * Update the corresponding variables with the padded slider offset and calculated rotation angle.
+ * @param world_x The world x coordinate to use in calculation.
+ * @param slider_offset The variable to store the padded slider offset in.
+ * @param rotation_angle The variable to store the calculated rotation angle in.
+ */
+void update_slider_offset(double world_x, double* slider_offset, double* rotation_angle) {
+    // The rotation angle is defined as split up by 4.5 world units equaling to 360 degrees.
+    *slider_offset = world_x - .25;
+    *rotation_angle = (*slider_offset * 360) / 4.5;
+}
+
+
+/**
+ * Callback function for mouse button pressed or released at screen coords x and y.
+ * @param button The button that pressed. One of GLUT_LEFT_BUTTON, GLUT_RIGHT_BUTTON OR GLUT_MIDDLE_BUTTON.
+ * @param state The state of the button (GLUT_UP OR GLUT_DOWN depending on if the button was released or pressed, respectively).
+ * @param x The x screen coordinate of the mouse pointer.
+ * @param y The y screen coordinate of the mouse pointer.
+ */
 void mouse_input(int button, int state, int x, int y) {
     if (button != GLUT_LEFT_BUTTON) {
+        // Only support dragging with the left mouse button.
         return;
     } else if (!(x >= (width / 2) && y >= (height / 2))) {
         // We're not in the bottom-right viewport.
@@ -445,61 +474,69 @@ void mouse_input(int button, int state, int x, int y) {
     }
 
     if (state == GLUT_UP) {
+        // If the mouse button was released, we aren't dragging the slider anymore.
         dragging = 0;
+    } else {
+        // The mouse button was pressed so we're starting to slide a slider now.
+        dragging = 1;
     }
 
     double world_x;
     double world_y;
 
+    // Reset the dragging flags as we're about to update which slider is being dragged.
     dragging_x = 0;
     dragging_y = 0;
     dragging_z = 0;
 
-    dragging = 1;
-
-    calculateSliderOffset(x, y, &world_x, &world_y);
+    // Store the world_x and world_y based on the mouse screen coords.
+    calculate_world_coordinates(x, y, &world_x, &world_y);
 
     if (world_y >= 2.0 && world_y <= 2.5) {
         // The X slider is selected
-        slider1_offset = world_x - .25;
-        x_rotation_angle = (slider1_offset * 360) / 4.5;
+        update_slider_offset(world_x, &slider1_offset, &x_rotation_angle);
         dragging_x = 1;
     } else if (world_y >= 1.0 && world_y <= 1.5) {
         // The Y slider is selected
-        slider2_offset = world_x - .25;
-        y_rotation_angle = (slider2_offset * 360) / 4.5;
+        update_slider_offset(world_x, &slider2_offset, &y_rotation_angle);
         dragging_y = 1;
     } else if (world_y >= 0 && world_y <= 0.5) {
         // The Z slider is selected
-        slider3_offset = world_x - .25;
-        z_rotation_angle = (slider3_offset * 360) / 4.5;
+        update_slider_offset(world_x, &slider3_offset, &z_rotation_angle);
         dragging_z = 1;
     }
 
+    // Need to redraw after we update the slider offset.
     glutPostRedisplay();
 }
 
 
+/**
+ * Callback function for mouse motion whenever a mouse button is pressed down.
+ * @param x The screen x coordinate of the mouse pointer.
+ * @param y The screen y coordinate of the mouse pointer.
+ */
 void mouse_motion(int x, int y) {
     if (dragging == 0) {
+        // If we're not dragging then we have nothing to do.
         return;
     }
 
     double world_x;
     double world_y;
 
-    calculateSliderOffset(x, y, &world_x, &world_y);
+    // Store the world_x and world_y based on the screen coords.
+    calculate_world_coordinates(x, y, &world_x, &world_y);
 
     if (dragging_x) {
-        slider1_offset = world_x - .25;
-        x_rotation_angle = (slider1_offset * 360) / 4.5;
-        printf("%f\n", slider1_offset);
+        // If we're dragging the x slider, update the x slider offset regardless of mouse y position.
+        update_slider_offset(world_x, &slider1_offset, &x_rotation_angle);
     } else if (dragging_y) {
-        slider2_offset = world_x - .25;
-        y_rotation_angle = (slider2_offset * 360) / 4.5;
+        // If we're dragging the y slider, update the y slider offset regardless of mouse y position.
+        update_slider_offset(world_x, &slider2_offset, &y_rotation_angle);
     } else if (dragging_z) {
-        slider3_offset = world_x - .25;
-        z_rotation_angle = (slider3_offset * 360) / 4.5;
+        // If we're dragging the z slider, update the z slider offset regardless of mouse y position.
+        update_slider_offset(world_x, &slider3_offset, &z_rotation_angle);
     }
 
     glutPostRedisplay();
