@@ -1,0 +1,7 @@
+bin/*
+cmake-build-debug/*
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/tasks.xml
+.idea/dictionaries/*
+
