@@ -118,11 +118,11 @@ void renderPLY() {
     glColor3d(0.65, 0.65, 0.65);
 
     glMatrixMode(GL_MODELVIEW);
-    glScaled(x_scale_factor, y_scale_factor, z_scale_factor);
-    glTranslated(-(max_x + min_x) / 2.0, -(max_y + min_y) / 2.0, -(max_z + min_z) / 2.0);
     glRotated(x_rotation_angle, 1, 0, 0);
     glRotated(y_rotation_angle, 0, 1, 0);
     glRotated(z_rotation_angle, 0, 0, 1);
+    glScaled(x_scale_factor, y_scale_factor, z_scale_factor);
+    glTranslated(-(max_x + min_x) / 2.0, -(max_y + min_y) / 2.0, -(max_z + min_z) / 2.0);
 
     for (int i = 0; i < num_faces; i++) {
         Face* face = flist[i];
@@ -571,9 +571,9 @@ int main(int argc, char** argv) {
     float y_range = abs(max_y - min_y);
     float z_range = abs(max_z - min_z);
 
-    x_scale_factor = 1.2 / x_range;
-    y_scale_factor = 1.2 / y_range;
-    z_scale_factor = 1.2 / z_range;
+    x_scale_factor = 2.0 / x_range;
+    y_scale_factor = 2.0 / y_range;
+    z_scale_factor = 2.0 / z_range;
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGB);
