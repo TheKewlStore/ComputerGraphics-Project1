@@ -419,32 +419,74 @@ void read_ply_file(char* filename) {
 }
 
 
-void calculateSliderOffset(int x, int y, double* world_x, double* world_y) {
+/**
+ * Given screen coordinates x and y, calculate world coordinates relative to the given x and y.
+ * @param x The screen x coordinate.
+ * @param y The screen y coordinate.
+ * @param world_x Pointer where the relative world x coordinate will be stored.
+ * @param world_y Pointer where the relative world y coordinate will be stored.
+ */
+void calculate_world_coordinates(int x, int y, double* world_x, double* world_y) {
     int viewport_left = width / 2;
 
+    // The viewport x value is calculated by
+    // subtracting the beginning x value of the viewport from the screen coordinate.
     double viewport_x = x - viewport_left;
+    // The viewport y value is calculated by subtracting the screen coordinate from the height of the viewport,
+    // as the screen coordinate y values are flipped relative to the world coordinate.
     double viewport_y = height - y;
 
+    // The world x coordinate is calculated by using the range of the world x coordinates / the width of the viewport.
     *world_x = viewport_x * 5.0 / (width / 2);
+    // The world y coordinate is calculated by using the range of the world y coordinates / the height of the viewport.
     *world_y = viewport_y * 2.5 / (height / 2);
 
     if (*world_x >= 4.75) {
+        // 4.75 is the effective max x value after considering the padding of the sliders.
         *world_x = 4.75;
     } else if (*world_x <= .25) {
+        // .25 is the effective minimum x value after considering the padding of the sliders.
         *world_x = .25;
     }
 }
 
 
+/**
+ * Callback function registered with GLUT to be called whenever a mouse button is pressed or released.
+ * @param button The mouse button that pressed, one of GLUT_LEFT_BUTTON, GLUT_RIGHT_BUTTON, OR GLUT_MIDDLE_BUTTON.
+ * @param state The state of the button, either pressed or released (GLUT_DOWN, GLUT_UP respectively).
+ * @param x The screen x coordinate of the pointer when the button was pressed.
+ * @param y The screen y coordinate of the pointer when the button was pressed.
+ * @post If button is not GLUT_LEFT_BUTTON, no change.
+ *       If the pointer was not in the slider viewport and state is GLUT_UP, dragging will be 0.
+ *       dragging will be 1 if the button was pressed, 0 otherwise.
+ *       One of dragging_x, dragging_y, or dragging_z will be set to 1, based on matching the screen coordinate to
+ *          one of the sliders in the viewport, the others will be 0.
+ *       Based on the location of the pointer:
+ *          slider1_offset, slider2_offset or slider3_offset will be set to the offset of the pointer within the slider.
+ *          x_rotation_angle, y_rotation_angle or z_rotation_angle will be set to the rotation angle based on
+ *              the relevant slider offset.
+ *       The draw function will be called at the end of the glut event loop.
+ */
 void mouse_input(int button, int state, int x, int y) {
     if (button != GLUT_LEFT_BUTTON) {
+        // We're only interested in left mouse button presses.
         return;
     } else if (!(x >= (width / 2) && y >= (height / 2))) {
-        // We're not in the bottom-right viewport.
-        return;
+        // We're not in the bottom-right viewport,
+        // so the only thing that could be necessary is updating the dragging state.
+        if (state != GLUT_UP) {
+            // The button was pressed, but we're not within the viewport so nothing to do.
+            // However, if we are already dragging, and the button was released,
+            // even though the pointer isn't within the viewport, we still want to stop dragging.
+            return;
+        }
     }
 
     if (state == GLUT_UP) {
+        // The button was released so stop dragging now.
+        // We don't return here, because we still want to ensure
+        // the offsets and angles get updated properly one last time.
         dragging = 0;
     }
 
@@ -457,7 +499,7 @@ void mouse_input(int button, int state, int x, int y) {
 
     dragging = 1;
 
-    calculateSliderOffset(x, y, &world_x, &world_y);
+    calculate_world_coordinates(x, y, &world_x, &world_y);
 
     if (world_y >= 2.0 && world_y <= 2.5) {
         // The X slider is selected
@@ -488,7 +530,7 @@ void mouse_motion(int x, int y) {
     double world_x;
     double world_y;
 
-    calculateSliderOffset(x, y, &world_x, &world_y);
+    calculate_world_coordinates(x, y, &world_x, &world_y);
 
     if (dragging_x) {
         slider1_offset = world_x - .25;
@@ -529,9 +571,9 @@ int main(int argc, char** argv) {
     float y_range = abs(max_y - min_y);
     float z_range = abs(max_z - min_z);
 
-    x_scale_factor = 2.0 / x_range;
-    y_scale_factor = 2.0 / y_range;
-    z_scale_factor = 2.0 / z_range;
+    x_scale_factor = 1.2 / x_range;
+    y_scale_factor = 1.2 / y_range;
+    z_scale_factor = 1.2 / z_range;
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGB);
