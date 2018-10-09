@@ -52,6 +52,11 @@ GLdouble x_rotation_angle = 0.0;
 GLdouble y_rotation_angle = 0.0;
 GLdouble z_rotation_angle = 0.0;
 
+int dragging = 0;
+int dragging_x = 0;
+int dragging_y = 0;
+int dragging_z = 0;
+
 
 /**
  * Draw the rotation sliders into the bottom left viewport.
@@ -414,6 +419,23 @@ void read_ply_file(char* filename) {
 }
 
 
+void calculateSliderOffset(int x, int y, double* world_x, double* world_y) {
+    int viewport_left = width / 2;
+
+    double viewport_x = x - viewport_left;
+    double viewport_y = height - y;
+
+    *world_x = viewport_x * 5.0 / (width / 2);
+    *world_y = viewport_y * 2.5 / (height / 2);
+
+    if (*world_x >= 4.75) {
+        *world_x = 4.75;
+    } else if (*world_x <= .25) {
+        *world_x = .25;
+    }
+}
+
+
 void mouse_input(int button, int state, int x, int y) {
     if (button != GLUT_LEFT_BUTTON) {
         return;
@@ -422,32 +444,62 @@ void mouse_input(int button, int state, int x, int y) {
         return;
     }
 
-    int viewport_left = width / 2;
-
-    double viewport_x = x - viewport_left;
-    double viewport_y = height - y;
-
-    double world_x = viewport_x * 5.0 / (width / 2);
-    double world_y = viewport_y * 2.5 / (height / 2);
-
-    if (world_x >= 4.75) {
-        world_x = 4.75;
-    } else if (world_x <= .25) {
-        world_x = .25;
+    if (state == GLUT_UP) {
+        dragging = 0;
     }
+
+    double world_x;
+    double world_y;
+
+    dragging_x = 0;
+    dragging_y = 0;
+    dragging_z = 0;
+
+    dragging = 1;
+
+    calculateSliderOffset(x, y, &world_x, &world_y);
 
     if (world_y >= 2.0 && world_y <= 2.5) {
         // The X slider is selected
         slider1_offset = world_x - .25;
-        x_rotation_angle = (slider1_offset * 360) / 5;
+        x_rotation_angle = (slider1_offset * 360) / 4.5;
+        dragging_x = 1;
     } else if (world_y >= 1.0 && world_y <= 1.5) {
         // The Y slider is selected
         slider2_offset = world_x - .25;
-        y_rotation_angle = (slider2_offset * 360) / 5;
+        y_rotation_angle = (slider2_offset * 360) / 4.5;
+        dragging_y = 1;
     } else if (world_y >= 0 && world_y <= 0.5) {
         // The Z slider is selected
         slider3_offset = world_x - .25;
-        z_rotation_angle = (slider3_offset * 360) / 5;
+        z_rotation_angle = (slider3_offset * 360) / 4.5;
+        dragging_z = 1;
+    }
+
+    glutPostRedisplay();
+}
+
+
+void mouse_motion(int x, int y) {
+    if (dragging == 0) {
+        return;
+    }
+
+    double world_x;
+    double world_y;
+
+    calculateSliderOffset(x, y, &world_x, &world_y);
+
+    if (dragging_x) {
+        slider1_offset = world_x - .25;
+        x_rotation_angle = (slider1_offset * 360) / 4.5;
+        printf("%f\n", slider1_offset);
+    } else if (dragging_y) {
+        slider2_offset = world_x - .25;
+        y_rotation_angle = (slider2_offset * 360) / 4.5;
+    } else if (dragging_z) {
+        slider3_offset = world_x - .25;
+        z_rotation_angle = (slider3_offset * 360) / 4.5;
     }
 
     glutPostRedisplay();
@@ -489,6 +541,7 @@ int main(int argc, char** argv) {
     glutDisplayFunc(draw);
     glutReshapeFunc(resize);
     glutMouseFunc(mouse_input);
+    glutMotionFunc(mouse_motion);
 
     glEnable(GL_DEPTH_TEST);
 
